@@ -9,6 +9,8 @@ import Projects from './pages/Projects';
 import GetInvolved from './pages/GetInvolved';
 import Contact from './pages/Contact';
 import Shop from './pages/Shop';
+import Cart from './pages/shop/Cart';
+import ProductDetail from './pages/shop/ProductDetail';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
         <Route path="get-involved" element={<GetInvolved />} />
         <Route path="contact" element={<Contact />} />
         <Route path="shop" element={<Shop />} />
+        <Route path="shop/cart" element={<Cart />} />
+        <Route path="shop/products/:id" element={<ProductDetail />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
