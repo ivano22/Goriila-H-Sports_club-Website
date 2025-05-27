@@ -1,11 +1,4 @@
-import React from 'react';
-
-const WORDPRESS_API_URL = 
-import.meta.env.VITE_WORDPRESS_API_URL;
-const WORDPRESS_CONSUMER_KEY=
-  import.meta.env.VITE_WORDPRESS_CONSUMER_KEY;
-const WORDPRESS_CONSUMER_SECRET = 
-  import.meta.env.VITE_WORDPRESS_CONSUMER_SECRET;
+import { useQuery } from '@tanstack/react-query';
 
 export interface Player {
   id: number;
@@ -44,7 +37,11 @@ export interface Project {
   slug: string;
 }
 
-export const fetchPlayers = async (): Promise<Player[]> => {
+const WORDPRESS_API_URL = import.meta.env.VITE_WORDPRESS_API_URL;
+const WORDPRESS_CONSUMER_KEY = import.meta.env.VITE_WORDPRESS_CONSUMER_KEY;
+const WORDPRESS_CONSUMER_SECRET = import.meta.env.VITE_WORDPRESS_CONSUMER_SECRET;
+
+async function fetchPlayers(): Promise<Player[]> {
   try {
     const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/players`);
     const data = await response.json();
@@ -60,9 +57,9 @@ export const fetchPlayers = async (): Promise<Player[]> => {
     console.error('Error fetching players:', error);
     return [];
   }
-};
+}
 
-export const fetchNews = async (): Promise<NewsArticle[]> => {
+async function fetchNews(): Promise<NewsArticle[]> {
   try {
     const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/posts`);
     const data = await response.json();
@@ -81,9 +78,9 @@ export const fetchNews = async (): Promise<NewsArticle[]> => {
     console.error('Error fetching news:', error);
     return [];
   }
-};
+}
 
-export const fetchProducts = async (): Promise<Product[]> => {
+async function fetchProducts(): Promise<Product[]> {
   try {
     const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wc/v3/products`, {
       headers: {
@@ -104,9 +101,9 @@ export const fetchProducts = async (): Promise<Product[]> => {
     console.error('Error fetching products:', error);
     return [];
   }
-};
+}
 
-export const fetchProjects = async (): Promise<Project[]> => {
+async function fetchProjects(): Promise<Project[]> {
   try {
     const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/projects`);
     const data = await response.json();
@@ -123,4 +120,33 @@ export const fetchProjects = async (): Promise<Project[]> => {
     console.error('Error fetching projects:', error);
     return [];
   }
-};
+}
+
+// React Query hooks
+export function usePlayers() {
+  return useQuery({
+    queryKey: ['players'],
+    queryFn: fetchPlayers,
+  });
+}
+
+export function useNews() {
+  return useQuery({
+    queryKey: ['news'],
+    queryFn: fetchNews,
+  });
+}
+
+export function useProducts() {
+  return useQuery({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
+  });
+}
+
+export function useProjects() {
+  return useQuery({
+    queryKey: ['projects'],
+    queryFn: fetchProjects,
+  });
+}
