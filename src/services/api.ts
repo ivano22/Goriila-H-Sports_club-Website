@@ -150,3 +150,9 @@ export function useProjects() {
     queryFn: fetchProjects,
   });
 }
+
+export { fetchNews }
+
+export { fetchProducts }
+
+export { fetchPlayers }
